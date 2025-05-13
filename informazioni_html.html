@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informazioni - Il Decameron</title>
+    <style>
+        :root {
+            --primary-color: #83512d;
+            --secondary-color: #ece2d0;
+            --text-color: #292522;
+            --accent-color: #651e0c;
+            --light-accent: #c49c73;
+        }
+        
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-image: url('img/decameron.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: rgba(236, 226, 208, 0.9);
+            border-bottom: 4px solid var(--primary-color);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .site-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .site-title h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: var(--accent-color);
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+        
+        .site-title p {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--accent-color);
+            margin: 0 15px;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary-color);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        main {
+            background-color: rgba(255, 255, 255, 0.92);
+            margin: 30px auto;
+            padding: 40px;
+            border: 1px solid var(--light-accent);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        
+        .info-section {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--light-accent);
+            padding-bottom: 30px;
+        }
+        
+        .info-section:last-child {
+            border-bottom: none;
+        }
+        
+        .info-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .info-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-right: 20px;
+        }
+        
+        h2 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin: 0;
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+        }
+        
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            border: 3px solid var(--primary-color);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .caption {
+            font-style: italic;
+            text-align: center;
+            color: var(--primary-color);
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .info-box {
+            background-color: rgba(236, 226, 208, 0.7);
+            border: 1px solid var(--light-accent);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        .ornament {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            color: var(--light-accent);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .back-to-top:hover {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+            }
+            
+            nav a {
+                margin: 5px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="site-title">
+                <h1>Il Decameron</h1>
+                <p>Un viaggio interattivo nell'opera di Giovanni Boccaccio</p>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="Novelle.html">Le Novelle</a>
+                <a href="personaggi-html.html">I Personaggi</a>
+                <a href="chatbot.html">Chatbot</a>
+                <a href="contesto_storico.html">Contesto Storico</a>
+                <a href="Informazioni.html">Informazioni</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <main>
+            <section class="info-section">
+                <div class="info-header">
+                    <div class="info-icon">📖</div>
+                    <h2>Il Decameron: L'Opera</h2>
+                </div>
+                
+                <div class="two-columns">
+                    <div>
+                        <p>Il <strong>Decameron</strong> è considerato il capolavoro di Giovanni Boccaccio e uno dei testi fondamentali della letteratura italiana. Il titolo deriva dal greco <em>δέκα</em> (dieci) e <em>ἡμερῶν</em> (giorni), indicando la struttura dell'opera: "dieci giorni" di racconti.</p>
+                        
+                        <p>Scritto tra il 1349 e il 1353, il Decameron è composto da un <strong>proemio</strong>, una <strong>introduzione</strong> e cento <strong>novelle</strong> suddivise in dieci giornate, più una conclusione dell'autore. L'intero testo è racchiuso in una <em>cornice narrativa</em> che descrive dieci giovani fiorentini (sette donne e tre uomini) che si rifugiano in una villa fuori città per sfuggire alla peste nera del 1348.</p>
+                        
+                        <h3>Struttura dell'opera</h3>
+                        <ul>
+                            <li><strong>Proemio</strong>: Boccaccio dedica l'opera alle donne innamorate</li>
+                            <li><strong>Introduzione</strong>: Descrizione della peste a Firenze</li>
+                            <li><strong>Dieci giornate</strong>: Ogni giorno i dieci giovani eleggono un "re" o una "regina" che sceglie il tema delle novelle</li>
+                            <li><strong>Conclusione dell'autore</strong>: Boccaccio difende la sua opera dalle critiche</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <div class="image-container">
+                            <img src="img/manoscritto.jpg" alt="Manoscritto del Decameron" />
+                            <p class="caption">Una pagina di un manoscritto antico del Decameron</p>
+                        </div>
+                        
+                        <div class="info-box">
+                            <h4>I temi delle dieci giornate</h4>
+                            <ol>
+                                <li>Tema libero</li>
+                                <li>Fortuna e disavventure a lieto fine</li>
+                                <li>L'acquisizione di un bene o il recupero di qualcosa di perduto</li>
+                                <li>Amori infelici o con esito tragico</li>
+                                <li>Amori felici dopo disavventure</li>
+                                <li>Motti di spirito e battute argute</li>
+                                <li>Beffe fatte da donne ai danni degli uomini</li>
+                                <li>Beffe di vario genere</li>
+                                <li>Tema libero</li>
+                                <li>Esempi di liberalità, magnificenza e virtù</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="ornament">✦ ✦ ✦</div>
+            
+            <section class="info-section">
+                <div class="info-header">
+                    <div class="info-icon">👤</div>
+                    <h2>Giovanni Boccaccio: L'Autore</h2>
+                </div>
+                
+                <div class="two-columns">
+                    <div>
+                        <div class="image-container">
+                            <img src="img/boccaccio.jpg" alt="Ritratto di Giovanni Boccaccio" />
+                            <p class="caption">Ritratto di Giovanni Boccaccio</p>
+                        </div>
+                        
+                        <div class="info-box">
+                            <h4>Opere principali</h4>
+                            <ul>
+                                <li><strong>Decameron</strong> (1349-1353)</li>
+                                <li><strong>Elegia di Madonna Fiammetta</strong> (1343-1344)</li>
+                                <li><strong>Ninfale fiesolano</strong> (1344-1346)</li>
+                                <li><strong>Corbaccio</strong> (1355)</li>
+                                <li><strong>Trattatello in laude di Dante</strong> (1357)</li>
+                                <li><strong>De mulieribus claris</strong> (1361-1362)</li>
+                                <li><strong>Genealogia deorum gentilium</strong> (1350-1375)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3>Biografia</h3>
+                        
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <p class="timeline-date">1313</p>
+                                <p>Nasce a Certaldo (o Firenze) da Boccaccino di Chellino, mercante, e da una donna sconosciuta.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <p class="timeline-date">1327-1340</p>
+                                <p>Trascorre a Napoli un periodo formativo, dove viene introdotto alla corte angioina e scopre l'amore per la letteratura. Si innamora di Maria d'Aquino (la "Fiammetta" delle sue opere).</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <p class="timeline-date">1340-1341</p>
+                                <p>Ritorna a Firenze a causa di difficoltà economiche del padre.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <p class="timeline-date">1348</p>
+                                <p>Vive l'esperienza traumatica della peste nera, che decima la popolazione di Firenze e che diventerà la cornice narrativa del Decameron.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <p class="timeline-date">1349-1353</p>
+                                <p>Scrive il Decameron, la sua opera più celebre.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <p class="timeline-date">1350</p>
+                                <p>Conosce Francesco Petrarca, con cui stringe una profonda amicizia intellettuale che durerà tutta la vita.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <p class="timeline-date">1350-1375</p>
+                                <p>Si dedica agli studi umanistici, alla riscoperta dei classici e alla divulgazione dell'opera di Dante.</p>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <p class="timeline-date">1375</p>
+                                <p>Muore a Certaldo il 21 dicembre.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="ornament">✦ ✦ ✦</div>
+            
+            <section class="info-section">
+                <div class="info-header">
+                    <div class="info-icon">🔍</div>
+                    <h2>Il Decameron: Significato e Importanza</h2>
+                </div>
+                
+                <p>Il Decameron rappresenta un punto di svolta nella letteratura europea, segnando il passaggio dalla cultura medievale a quella umanistica. Con quest'opera, Boccaccio propone una nuova visione dell'uomo e del mondo:</p>
+                
+                <div class="two-columns">
+                    <div>
+                        <h3>Innovazioni letterarie</h3>
+                        <ul>
+                            <li><strong>Uso del volgare</strong>: Boccaccio eleva il volgare toscano a lingua letteraria di grande prestigio</li>
+                            <li><strong>Struttura narrativa complessa</strong>: La cornice e le novelle creano un gioco di narrazioni interne</li>
+                            <li><strong>Varietà di registri linguistici</strong>: Dal comico al tragico, dal lirico al realistico</li>
+                            <li><strong>Caratterizzazione dei personaggi</strong>: Figure a tutto tondo, con una psicologia complessa</li>
+                        </ul>
+                        
+                        <h3>Tematiche principali</h3>
+                        <ul>
+                            <li><strong>L'amore</strong> in tutte le sue forme: nobile, carnale, tragico, comico</li>
+                            <li><strong>La fortuna</strong> come forza che influenza le vicende umane</li>
+                            <li><strong>L'ingegno</strong> come capacità di risolvere situazioni complesse</li>
+                            <li><strong>La natura umana</strong> con le sue virtù e i suoi vizi</li>
+                            <li><strong>La critica sociale</strong>, in particolare verso il clero corrotto</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <div class="info-box">
+                            <h4>L'eredità del Decameron</h4>
+                            <p>Il Decameron ha influenzato profondamente la letteratura successiva:</p>
+                            <ul>
+                                <li>Geoffrey Chaucer si ispira alla struttura del Decameron per i suoi "Canterbury Tales"</li>
+                                <li>Shakespeare attinge ad alcune novelle per trame delle sue opere</li>
+                                <li>La tradizione novellistica italiana ed europea si sviluppa sul modello boccacciano</li>
+                                <li>Lo stile narrativo di Boccaccio influenza il romanzo moderno</li>
+                            </ul>
+                        </div>
+                        
+                        <h3>Il Decameron oggi</h3>
+                        <p>Ancora oggi il Decameron è considerato:</p>
+                        <ul>
+                            <li>Un documento storico sulla società italiana del Trecento</li>
+                            <li>Un capolavoro della letteratura mondiale</li>
+                            <li>Un'opera che esplora temi universali ancora attuali</li>
+                            <li>Un testo fondamentale nello studio della lingua italiana</li>
+                        </ul>
+                        
+                        <p>Il Decameron è stato più volte adattato per il teatro, il cinema e la televisione, a testimonianza della sua inesauribile vitalità culturale.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="ornament">✦ ✦ ✦</div>
+            
+            <section class="info-section">
+                <div class="info-header">
+                    <div class="info-icon">💡</div>
+                    <h2>Curiosità</h2>
+                </div>
+                
+                <ul>
+                    <li>Il manoscritto autografo del Decameron, conosciuto come "Hamilton 90", è conservato nella Staatsbibliothek di Berlino.</li>
+                    <li>Il Decameron fu inserito nell'Indice dei libri proibiti dalla Chiesa cattolica nel 1559 e ne fu permessa la circolazione solo in versioni espurgate.</li>
+                    <li>La parola "novella" nel significato moderno di racconto breve si afferma proprio grazie al Decameron.</li>
+                    <li>Boccaccio stesso, negli ultimi anni della sua vita, si pentì della "leggerezza" di alcune novelle del Decameron.</li>
+                    <li>La "brigata" dei dieci narratori è composta da sette donne (Pampinea, Fiammetta, Filomena, Emilia, Lauretta, Neifile, Elissa) e tre uomini (Panfilo, Filostrato, Dioneo).</li>
+                    <li>Dioneo, uno dei narratori, ha il privilegio di raccontare sempre l'ultima novella della giornata e di potersi sottrarre al tema scelto.</li>
+                </ul>
+                
+                <div class="cta" style="margin-top: 40px;">
+                    <a href="pagina_web.html" class="btn">Torna alla Home</a>
+                    <a href="Novelle.html" class="btn" style="margin-left: 15px;">Esplora le Novelle</a>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Il Decameron Interattivo © 2025 | Un progetto culturale dedicato all'opera di Giovanni Boccaccio</p>
+            <p>Tutte le illustrazioni e i contenuti sono utilizzati a scopo didattico e culturale</p>
+        </div>
+    </footer>
+    
+    <a href="#" class="back-to-top">↑</a>
+    
+    <script>
+        // Script per il pulsante "Torna in alto"
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Mostra/nascondi il pulsante "Torna in alto" in base allo scroll
+        window.addEventListener('scroll', function() {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+        
+        // Imposta il pulsante inizialmente nascosto
+        document.querySelector('.back-to-top').style.display = 'none';
+    </script>
+</body>
+</html>

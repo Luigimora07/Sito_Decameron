@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Novelle del Decameron</title>
+    <style>
+        :root {
+            --primary-color: #83512d;
+            --secondary-color: #ece2d0;
+            --text-color: #292522;
+            --accent-color: #651e0c;
+            --light-accent: #c49c73;
+        }
+        
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-image: url('/api/placeholder/600/900');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: rgba(236, 226, 208, 0.9);
+            border-bottom: 4px solid var(--primary-color);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .site-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .site-title h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: var(--accent-color);
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+        
+        .site-title p {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--accent-color);
+            margin: 0 15px;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary-color);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        nav a.active {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        nav a.active::after {
+            width: 100%;
+        }
+        
+        main {
+            background-color: rgba(255, 255, 255, 0.92);
+            margin: 30px auto;
+            padding: 40px;
+            border: 1px solid var(--light-accent);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-accent);
+        }
+        
+        .ornament {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            color: var(--light-accent);
+        }
+        
+        .giornate-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .giornata-btn {
+            padding: 8px 16px;
+            background-color: var(--secondary-color);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .giornata-btn:hover, .giornata-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .novelle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .novella-card {
+            border: 1px solid var(--light-accent);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .novella-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .novella-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 15px;
+        }
+        
+        .novella-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .novella-body {
+            padding: 15px;
+        }
+        
+        .novella-body p {
+            margin-top: 0;
+        }
+        
+        .novella-footer {
+            padding: 10px 15px;
+            background-color: var(--secondary-color);
+            text-align: right;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .giornata-title {
+            margin-top: 40px;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--light-accent);
+            padding-bottom: 10px;
+        }
+        
+        .giornata-intro {
+            margin-bottom: 30px;
+            font-style: italic;
+            padding: 15px;
+            background-color: var(--secondary-color);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Stile per il filtro di ricerca */
+        .search-container {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .search-box {
+            flex-grow: 1;
+            max-width: 500px;
+            padding: 10px 15px;
+            border: 2px solid var(--light-accent);
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .filter-tag {
+            padding: 5px 12px;
+            background-color: var(--light-accent);
+            color: var(--text-color);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .filter-tag:hover, .filter-tag.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .novelle-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulazione di filtro per giornata
+            const giornataButtons = document.querySelectorAll('.giornata-btn');
+            const giornateContent = document.querySelectorAll('.giornata-content');
+            
+            // Inizialmente mostra solo la prima giornata
+            giornateContent.forEach((content, index) => {
+                if (index !== 0) {
+                    content.style.display = 'none';
+                }
+            });
+            
+            // Mostra la giornata selezionata
+            giornataButtons.forEach((btn, index) => {
+                if (index === 0) {
+                    btn.classList.add('active');
+                }
+                
+                btn.addEventListener('click', function() {
+                    // Rimuove la classe active da tutti i bottoni
+                    giornataButtons.forEach(b => b.classList.remove('active'));
+                    // Aggiunge la classe active al bottone cliccato
+                    this.classList.add('active');
+                    
+                    // Nasconde tutti i contenuti
+                    giornateContent.forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    
+                    // Mostra il contenuto corrispondente
+                    giornateContent[index].style.display = 'block';
+                });
+            });
+            
+            // Simulazione di ricerca
+            const searchBox = document.getElementById('search-novelle');
+            const novelleCards = document.querySelectorAll('.novella-card');
+            
+            searchBox.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                novelleCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('.novella-body p').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Simulazione di filtro per tag
+            const filterTags = document.querySelectorAll('.filter-tag');
+            
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    // Qui andrebbe la logica per filtrare in base ai tag attivi
+                    // In una versione completa
+                    alert('Hai selezionato il filtro: ' + this.textContent);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="site-title">
+                <h1>Il Decameron</h1>
+                <p>Un viaggio interattivo nell'opera di Giovanni Boccaccio</p>
+            </div>
+            <nav>
+                <a href="pagina_web.html">Home</a>
+                <a href="novelle.html" class="active">Le Novelle</a>
+                <a href="personaggi.html">I Personaggi</a>
+                <a href="chatbot.html">Chatbot</a>
+                <a href="contesto_storico.html">Contesto Storico</a>
+                <a href="#">Informazioni</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <main>
+            <h1 class="page-title">Le Novelle del Decameron</h1>
+        
+            <div class="search-container">
+                <input type="text" id="search-novelle" class="search-box" placeholder="Cerca tra le novelle per titolo o contenuto...">
+        
+                <div class="filter-container">
+                    <span class="filter-tag">Amore</span>
+                    <span class="filter-tag">Fortuna</span>
+                    <span class="filter-tag">Beffa</span>
+                    <span class="filter-tag">Ingegno</span>
+                    <span class="filter-tag">Tragedia</span>
+                </div>
+            </div>
+        
+            <div class="giornate-nav">
+                <button class="giornata-btn">Prima Giornata</button>
+                <button class="giornata-btn">Seconda Giornata</button>
+                <button class="giornata-btn">Terza Giornata</button>
+                <button class="giornata-btn">Quarta Giornata</button>
+                <button class="giornata-btn">Quinta Giornata</button>
+                <button class="giornata-btn">Sesta Giornata</button>
+                <button class="giornata-btn">Settima Giornata</button>
+                <button class="giornata-btn">Ottava Giornata</button>
+                <button class="giornata-btn">Nona Giornata</button>
+                <button class="giornata-btn">Decima Giornata</button>
+            </div>
+        
+            <div class="ornament">✦ ✦ ✦</div>
+        
+            <div class="giornata-content" style="display: block;">
+                <h2 class="giornata-title">Prima Giornata: Novelle a tema libero, sotto il regno di Pampinea</h2>
+                <p class="giornata-intro">Si ragiona di quello che più aggrada a ciascheduno. Pampinea è regina. Queste novelle spaziano dalle critiche alla corruzione ecclesiastica alle storie di ingegno e astuzia.</p>
+        
+                <div class="novelle-grid">
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Ser Ciappelletto</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Ser Cepparello (o Ciappelletto) da Prato, uomo malvagio e noto peccatore, riesce con una falsa confessione a ingannare un santo frate e a morire in odore di santità, venendo poi venerato come San Ciappelletto.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: Abraam giudeo</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Abraam, un mercante ebreo, spinto dall'amico Giannotto di Civignì, si reca a Roma per osservare la corte papale. Nonostante la corruzione e le nefandezze a cui assiste, decide di convertirsi al cristianesimo, ritenendo che solo una religione sostenuta da Dio possa prosperare nonostante la malvagità dei suoi ministri.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Melchisedech giudeo</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Il Saladino, necessitando denaro, cerca di trarre in inganno il ricco e saggio ebreo Melchisedech chiedendogli quale sia la vera fede tra la giudaica, la saracena e la cristiana. Melchisedech risponde con la parabola dei tre anelli, evitando la trappola e guadagnandosi l'amicizia del sultano.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Il monaco e l'abate</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Un giovane monaco, sorpreso dall'abate in compagnia di una fanciulla, riesce con astuzia a far sì che anche l'abate cada nello stesso peccato, evitando così la punizione e ottenendo il permesso di continuare i suoi incontri.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: La marchesana di Monferrato</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>La marchesana di Monferrato, il cui marito è partito per una crociata, respinge con arguzia le attenzioni del re di Francia offrendogli un banchetto composto interamente da galline, per dimostrargli che, sebbene diverse nell'aspetto, le donne sono tutte uguali nella sostanza.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Il valente uomo e l'inquisitore</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Un valente uomo, con un motto arguto sull'ipocrisia e l'avarizia, riesce a zittire un inquisitore che voleva accusarlo di eresia per avergli negato un bicchiere di vino particolarmente buono, dimostrando che l'inquisitore era più interessato ai beni materiali che alla fede.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Bergamino e Cangrande</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Bergamino, un arguto novellatore, con la storia di Primasso e dell'abate di Cluny, rimprovera l'improvvisa avarizia di Cangrande della Scala, ottenendo da lui doni e favori.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Guglielmo Borsiere e Ermino de' Grimaldi</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Guglielmo Borsiere, con un'arguta osservazione, critica l'avarizia del ricco genovese Ermino de' Grimaldi, spingendolo a cambiare vita e a diventare più generoso e cortese.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Il re di Cipro e la donna di Guascogna</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Il re di Cipro, da vile e pusillanime, viene trasformato in un sovrano giusto e valoroso dalle parole pungenti di una donna di Guascogna, che si lamenta con lui di un'ingiustizia subita, spronandolo a vendicare almeno la sua vergogna di re inetto.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: Maestro Alberto da Bologna</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Maestro Alberto da Bologna, medico anziano ma ancora vigoroso, risponde con arguzia a una donna che lo schernisce per il suo amore senile, paragonando l'amore al porro, che ha la testa bianca ma il resto verde e saporito.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_prima/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="giornata-content">
+                <h2 class="giornata-title">Seconda Giornata: Chi, da diverse cose infestato, sia oltre alla sua speranza riuscito a lieto fine</h2>
+                <p class="giornata-intro">Si ragiona di chi, da diverse cose infestato, sia oltre alla sua speranza riuscito a lieto fine. Filomena è regina. Queste novelle mostrano spesso il ruolo della fortuna nelle vicende umane.</p>
+                <div class="novelle-grid">
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Martellino</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Martellino, fingendosi storpio, cerca di toccare il corpo di Arrigo da Treviso, creduto santo, per poi vantarsi della guarigione. Scoperto l'inganno, viene malmenato e arrestato, ma alla fine si salva per l'intervento di un amico.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: Rinaldo d'Asti</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Rinaldo d'Asti, derubato da masnadieri, giunge a Castel Guiglielmo dove viene ospitato da una vedova. Dopo un bagno caldo e una cena, la donna lo accoglie nel suo letto, ricompensandolo delle perdite subite grazie all'intercessione di San Giuliano.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Tre giovani e tre sorelle</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Tre giovani, nipoti di un ricco mercante, dopo aver sperperato le loro fortune, si uniscono a tre sorelle povere e belle. Insieme, affrontano peripezie per mare e per terra, arricchendosi e infine tornando a casa felicemente sposati.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Landolfo Rufolo</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Landolfo Rufolo, ricco mercante caduto in miseria, si dà alla pirateria. Catturato e naufragato due volte, si salva aggrappandosi a una cassa piena di gioielli preziosi, recuperando così più di quanto avesse perso.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: Andreuccio da Perugia</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Andreuccio da Perugia, ingenuo mercante di cavalli, si reca a Napoli e viene derubato più volte. In una serie di disavventure notturne, finisce in un pozzo e in una tomba, ma alla fine riesce a tornare a casa con un anello di grande valore.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Madonna Beritola</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Madonna Beritola Caracciolo, dopo la caduta in disgrazia del marito Arrigo Capece, governatore della Sicilia, fugge con i figli e affronta numerose peripezie, tra cui la perdita e il ritrovamento dei figli e la prigionia, per poi riunirsi felicemente alla famiglia.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Alatiel</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Alatiel, bellissima figlia del sultano di Babilonia, promessa sposa al re del Garbo, naufraga e, nel corso di quattro anni, passa per le mani di nove uomini diversi a causa della sua bellezza. Infine, riesce a tornare dal padre e a sposare il re come se nulla fosse accaduto.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Gualtieri, conte d'Anversa</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Il conte Gualtieri d'Anversa, falsamente accusato di adulterio e tentato omicidio dalla regina di Francia, è costretto all'esilio con i suoi due figli. Dopo molte sventure e aver vissuto in povertà, la sua innocenza viene riconosciuta e la sua fortuna ristabilita.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Bernabò da Genova e Ambrogiuolo</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Bernabò Lomellin da Genova scommette con Ambrogiuolo da Piacenza sulla fedeltà di sua moglie, Zinevra. Ambrogiuolo inganna Bernabò, che ordina l'uccisione della moglie. Zinevra fugge, si traveste da uomo e, dopo varie avventure, smaschera l'inganno e si ricongiunge al marito.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: Paganino da Monaco e Riccardo di Chinzica</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Riccardo di Chinzica, giudice avaro e poco attento ai bisogni della moglie Bartolomea, la perde quando viene rapita dal corsaro Paganino da Monaco. Bartolomea si innamora di Paganino e si rifiuta di tornare dal marito, preferendo la vita avventurosa e passionale con il corsaro.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_seconda/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="giornata-content">
+                <h2 class="giornata-title">Terza Giornata: Chi alcuna cosa molto da lui desiderata con industria acquistasse o la perduta ricoverasse</h2>
+                <p class="giornata-intro">Si ragiona di chi alcuna cosa molto da lui desiderata con industria acquistasse o la perduta ricoverasse. Neifile è regina. Le novelle celebrano l'ingegno e l'astuzia umana nel raggiungere i propri obiettivi, specialmente in amore.</p>
+                <div class="novelle-grid">
+                     <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Masetto da Lamporecchio</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Masetto da Lamporecchio si finge muto e ottiene un lavoro come ortolano in un convento di monache. Le monache, una dopo l'altra, approfittano di lui, finché, stanco, Masetto rivela di saper parlare, accordandosi per una vita più tranquilla.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: Il palafreniere e re Agilulfo</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Un palafreniere si innamora della regina Teodolinda, moglie di re Agilulfo. Fingendosi il re, riesce a giacere con lei. Agilulfo, sospettoso, cerca di scoprire il colpevole controllando il battito cardiaco dei servitori, ma l'astuto palafreniere lo inganna nuovamente.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Madonna e il frate</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Una nobildonna, innamorata di un giovane, si confessa a un frate ingenuo, facendogli credere che il suo desiderio sia un sogno ispirato. Il frate, agendo come intermediario inconsapevole, favorisce l'incontro tra i due amanti.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Don Felice e frate Puccio</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Don Felice insegna a frate Puccio una penitenza che gli permetterebbe di raggiungere la santità, ma che in realtà lo tiene occupato di notte, lasciando campo libero a Don Felice per incontrare la moglie di frate Puccio.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: Zima e Francesco Vergellesi</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Il Zima, innamorato della moglie di Francesco Vergellesi, ottiene da quest'ultimo il permesso di parlarle in cambio di un cavallo. Con un'astuta interpretazione delle parole, il Zima riesce a ottenere i favori della donna.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Ricciardo Minutolo e Catella</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Ricciardo Minutolo, innamorato di Catella, moglie di Filippello Sighinolfi, la inganna facendole credere che Filippello le darà un appuntamento in un bagno termale. Catella vi si reca e, credendo di incontrare il marito, giace con Ricciardo.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Tedaldo degli Elisei</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Tedaldo, credendo morta la sua amata Ermellina a causa di un malinteso, torna a Firenze dopo un lungo esilio autoimposto. Scopre che Ermellina è viva e sposata, e riesce a riconquistarla con l'aiuto di un frate.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Ferondo e l'abate</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Ferondo, uomo rozzo e geloso, viene drogato da un abate che desidera sua moglie. Creduto morto, Ferondo viene sepolto e poi "resuscitato" dall'abate, che gli fa credere di essere stato in Purgatorio, guarendolo dalla gelosia e godendosi la moglie nel frattempo.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Giletta di Narbona</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Giletta di Narbona, innamorata di Beltramo di Rossiglione, guarisce il re di Francia da una malattia e chiede in sposa Beltramo. Questi la sposa controvoglia e la abbandona, ma Giletta con astuzia riesce a soddisfare le condizioni da lui imposte e a farsi accettare.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: Alibech e Rustico</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Alibech, giovane e ingenua fanciulla, si reca nel deserto della Tebaide per servire Dio. Incontra il monaco Rustico, che le insegna a "rimettere il diavolo all'inferno", ovvero ad avere rapporti sessuali, facendole credere che sia un atto di devozione.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_terza/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="giornata-content">
+                <h2 class="giornata-title">Quarta Giornata: Di coloro li cui amori ebbero infelice fine</h2>
+                <p class="giornata-intro">Si ragiona di coloro li cui amori ebbero infelice fine. Filostrato è re. Questa giornata è dedicata a storie d'amore tragiche e sfortunate.</p>
+                <div class="novelle-grid">
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Ghismunda e Guiscardo</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Ghismunda, figlia del principe Tancredi di Salerno, si innamora del valletto Guiscardo. Tancredi scopre la relazione, fa uccidere Guiscardo e le manda il cuore dell'amato in una coppa d'oro. Ghismunda si avvelena e muore accanto al cuore dell'amante.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: Frate Alberto e Lisetta</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Frate Alberto da Imola inganna la sciocca madonna Lisetta da ca' Quirino facendole credere di essere l'arcangelo Gabriele e giacendo con lei. Scoperto dai cognati di Lisetta, fugge ma viene poi catturato e pubblicamente svergognato.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Tre sorelle e i loro amanti</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Tre giovani amano tre sorelle e fuggono con loro in Oriente. Una sorella uccide l'amante per gelosia e viene uccisa dall'altro fratello; la terza sorella e l'amante superstite muoiono di dolore e stenti.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Gerbino e la figlia del re di Tunisi</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Gerbino, nipote del re Guglielmo di Sicilia, attacca una nave del re di Tunisi per rapire la figlia, di cui è innamorato. La fanciulla viene uccisa dagli uomini della nave e Gerbino, per vendetta, li uccide tutti, venendo poi condannato a morte dal nonno.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: Lisabetta da Messina e Lorenzo</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>I fratelli di Lisabetta da Messina uccidono il suo amante Lorenzo. Egli le appare in sogno, rivelandole dove è sepolto. Lisabetta disseppellisce la testa dell'amato e la nasconde in un vaso di basilico, che innaffia con le sue lacrime fino a morire di dolore.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Andreuola e Gabriotto</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Andreuola ama Gabriotto. Gli racconta un sogno premonitore e poco dopo Gabriotto muore tra le sue braccia. Andreuola, accusata dell'omicidio insieme al padre, viene assolta. Rifiutando di risposarsi, si fa monaca.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Simona e Pasquino</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Simona ama Pasquino. Mentre sono insieme in un orto, Pasquino muore avvelenato strofinandosi i denti con una foglia di salvia. Simona, accusata, dimostra la sua innocenza strofinandosi anch'ella con la stessa foglia e morendo allo stesso modo.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Girolamo e Salvestra</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Girolamo ama Salvestra. Spinto dalla madre, va a Parigi. Al suo ritorno, trova Salvestra sposata. Entra di nascosto in casa sua e le muore accanto. Salvestra, scoperto il corpo, muore anch'ella di dolore.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Guglielmo Rossiglione e Guglielmo Guardastagno</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Guglielmo Rossiglione scopre che sua moglie è amata da Guglielmo Guardastagno. Uccide Guardastagno, gli strappa il cuore e lo dà da mangiare alla moglie. La donna, saputo l'accaduto, si getta da una finestra e muore.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: La moglie del medico e lo scolare</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>La moglie di un medico mette in un cofano il suo amante, creduto morto dopo aver bevuto una pozione narcotica. Il cofano viene rubato da due usurai. L'amante si risveglia, viene arrestato come ladro, ma la serva della donna svela la verità, salvandolo dalla forca e recuperando il cofano.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quarta/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="giornata-content">
+                <h2 class="giornata-title">Quinta Giornata: Ciò che a alcuno amante, dopo alcuni fieri o sventurati accidenti, felicemente avvenisse</h2>
+                <p class="giornata-intro">Si ragiona di ciò che a alcuno amante, dopo alcuni fieri o sventurati accidenti, felicemente avvenisse. Fiammetta è regina. Le novelle di questa giornata narrano di amori che, nonostante ostacoli e sventure, giungono a un lieto fine.</p>
+                <div class="novelle-grid">
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Cimone e Ifigenia</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Cimone, giovane rozzo e incolto, si innamora di Ifigenia vedendola dormire. L'amore lo ingentilisce. Rapisce Ifigenia, promessa a un altro, e dopo varie peripezie in mare e prigionia, riesce a sposarla.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quinta/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: Gostanza e Martuccio Gomito</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Gostanza ama Martuccio Gomito. Credendolo morto, si imbarca per disperazione. Naufraga e viene accolta a Susa. Martuccio, scampato alla prigionia, la ritrova e, grazie ai suoi consigli al re di Tunisi, diventa ricco e sposa Gostanza.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quinta/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Pietro Boccamazza e Agnolella</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Pietro Boccamazza fugge con l'amata Agnolella. Incontrano dei ladroni; Pietro fugge e Agnolella viene portata in un bosco. Dopo varie avventure separate, si ritrovano e giungono a Roma, dove si sposano.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quinta/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Ricciardo Manardi e Caterina</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Ricciardo Manardi ama Caterina, figlia di Lizio da Valbona. Una notte, mentre i due giovani sono insieme, il canto di un usignolo sveglia Lizio, che scopre la relazione. Lizio costringe Ricciardo a sposare Caterina.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quinta/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: Guidotto da Cremona e la figlia del re di Scozia</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Guidotto da Cremona affida la sua giovane figlia Teodora a Giacomo da Pavia. La fanciulla si innamora di Giannole di Severino. Dopo varie peripezie e il riconoscimento della sua vera identità come figlia del re di Scozia, sposa Giannole.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quinta/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Gianni di Procida e Restituta</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Gianni di Procida rapisce Restituta, amata da Federico II di Svevia. Vengono catturati e condannati al rogo. Ruggieri de Loria, ammiraglio del re, li riconosce e intercede per loro, ottenendone la liberazione e il matrimonio.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quinta/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Teodoro e Violante</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Teodoro, schiavo armeno, si innamora di Violante, figlia del suo padrone Amerigo. Rimane incinta e viene condannata a morte. Mentre viene condotta al patibolo, suo padre naturale la riconosce, salvandola e permettendole di sposare Teodoro.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Quinta_giornata/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Nastagio degli Onesti</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Nastagio degli Onesti, respinto dalla sua amata, si ritira in campagna. Assiste alla caccia infernale di un cavaliere che insegue e uccide una donna, ripetutamente. Invita la sua amata e i parenti ad assistere alla scena; la donna, spaventata, accetta di sposarlo.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quinta/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Federigo degli Alberighi</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Federigo degli Alberighi, innamorato di monna Giovanna, spende tutte le sue ricchezze per corteggiarla senza successo. Rimastogli solo un falcone, lo cucina per lei quando Giovanna va a trovarlo. Colpita dal suo gesto, Giovanna, rimasta vedova, lo sposa.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quinta/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: Pietro di Vinciolo e la moglie</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Pietro di Vinciolo va a cena fuori. Sua moglie fa venire un amante. Pietro torna inaspettatamente; la moglie nasconde l'amante sotto una cesta per polli. Un asino pesta le dita dell'amante, che urla. Pietro scopre tutto, ma fanno pace dopo che la moglie lo rimprovera per le sue preferenze sessuali.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_quinta/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="giornata-content">
+                <h2 class="giornata-title">Sesta Giornata: Chi con alcun leggiadro motto, tentato, si riscotesse, o con pronta risposta o avvedimento fuggì perdita o pericolo o scorno</h2>
+                <p class="giornata-intro">Si ragiona di chi con alcun leggiadro motto, tentato, si riscotesse, o con pronta risposta o avvedimento fuggì perdita o pericolo o scorno. Elissa è regina. Le novelle di questa giornata esaltano l'arte del ben parlare e la prontezza di spirito.</p>
+                <div class="novelle-grid">
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Madonna Oretta e il cavaliere</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Un cavaliere offre a madonna Oretta di intrattenerla con una novella durante un viaggio a cavallo, ma la racconta così male che lei lo prega di lasciarla scendere, preferendo camminare.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: Cisti fornaio</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Cisti, un fornaio, con un'arguta offerta di vino, riesce a far notare a Geri Spina, legato pontificio, la scortesia dei suoi servitori, ottenendo il suo rispetto e amicizia.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Monna Nonna de' Pulci</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Monna Nonna de' Pulci, con una pronta e spiritosa risposta, mette a tacere il vescovo di Firenze che aveva tentato di sminuire la bellezza delle donne fiorentine.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Chichibio cuoco</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Chichibio, cuoco di Currado Gianfigliazzi, per compiacere la sua amante Brunetta, le dona una coscia di una gru cucinata per il padrone. Messo alle strette, si salva con una battuta spiritosa sulla natura delle gru.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: Forese da Rabatta e Giotto</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Messer Forese da Rabatta, giurista, e Giotto, pittore, entrambi di brutto aspetto, si incontrano per caso e si prendono argutamente in giro riguardo alla loro bruttezza e al loro valore.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Michele Scalza</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Michele Scalza dimostra a certi giovani che i Baronci sono la famiglia più nobile del mondo e dei dintorni, giocando sull'antichità e sulla "creazione" divina.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Madonna Filippa</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Madonna Filippa, sorpresa in adulterio dal marito, viene processata. Con un'arguta difesa, ammette il fatto ma sostiene che le leggi ingiuste dovrebbero essere cambiate, ottenendo l'assoluzione e la modifica della legge.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Fresco e la nepote</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Fresco da Celatico rimprovera la nipote, sdegnosa e piena di sé, che non sopportava di vedere gente sgradevole, consigliandola di non specchiarsi mai per non vedere se stessa.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Guido Cavalcanti</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Guido Cavalcanti, con una battuta arguta e filosofica, risponde a una brigata di giovani fiorentini che lo importunavano mentre meditava tra le tombe, definendoli "a casa loro" in quanto ignoranti.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: Frate Cipolla</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Frate Cipolla promette di mostrare ai contadini di Certaldo una penna dell'Arcangelo Gabriele. Due giovani burloni gli sottraggono la penna e la sostituiscono con dei carboni. Frate Cipolla, con grande abilità retorica, improvvisa un discorso e spaccia i carboni per quelli usati per arrostire San Lorenzo.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_sesta/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="giornata-content">
+                <h2 class="giornata-title">Settima Giornata: Le beffe, le quali o per amore o per salvamento di loro le donne hanno già fatte a' lor mariti</h2>
+                <p class="giornata-intro">Si ragiona de le beffe, le quali o per amore o per salvamento di loro le donne hanno già fatte a' lor mariti, senza essersene avveduti o sì. Dioneo è re. Questa giornata è dedicata alle astuzie femminili nel beffare i mariti.</p>
+                <div class="novelle-grid">
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Gianni Lotteringhi e Tessa</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Gianni Lotteringhi sente bussare di notte. Sua moglie Tessa, che ha l'amante in casa, gli fa credere che sia un fantasma e lo esorcizza con una preghiera che in realtà è un segnale per l'amante.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: Peronella e il tino</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Peronella nasconde l'amante in un tino quando il marito torna inaspettatamente. Dice al marito che ha venduto il tino all'uomo che vi è dentro, il quale lo sta pulendo. Mentre il marito controlla il tino, lei e l'amante si appartano.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Frate Rinaldo e la comare</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Frate Rinaldo giace con la sua comare. Il marito li scopre e Frate Rinaldo lo convince che stava facendo un incantesimo per far nascere un figlio maschio al bambino della comare.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Tofano e Ghita</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Tofano chiude fuori casa la moglie Ghita, che era uscita per incontrare l'amante. Ghita minaccia di gettarsi in un pozzo, ma getta una grossa pietra. Tofano esce per salvarla e lei rientra in casa, chiudendolo fuori e insultandolo.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: Il mercante geloso</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Un mercante geloso confessa i suoi peccati sotto mentite spoglie a un prete, che in realtà è l'amante della moglie travestito. Il finto prete gli impone una penitenza che favorisce gli incontri con la moglie.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Isabella, Leonetto e Lambertuccio</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Isabella è con l'amante Leonetto quando torna il marito. Leonetto si nasconde. Poco dopo arriva un altro amante, Lambertuccio. Il marito scopre Lambertuccio, che finge di aver inseguito Leonetto fin lì. Il marito li caccia entrambi, poi si placa.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Lodovico e Beatrice</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Lodovico, innamorato di Beatrice, moglie di Egano de' Galluzzi, si traveste da lei e giace con Egano, mentre Beatrice è con Lodovico. Egano, soddisfatto, non si accorge di nulla.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Arriguccio Berlinghieri e Sismonda</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Arriguccio Berlinghieri, geloso della moglie Sismonda, le lega un filo all'alluce per controllarla di notte. Sismonda lo attacca all'alluce della serva, che intrattiene l'amante. Arriguccio scopre la serva e la picchia, credendo di punire la moglie.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Lidia e Pirro</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Lidia, moglie di Nicostrato, ama Pirro. Per provargli il suo amore, compie tre imprese rischiose sotto gli occhi del marito: uccide un suo falcone, gli strappa una ciocca di barba e gli fa rompere un dente, convincendolo che ogni azione era giustificata.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: Due sanesi e la comare</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Due senesi amano la stessa donna, moglie di un loro amico. Uno muore e l'altro, apparendo come il defunto, giace con la donna. Il marito, avvertito dal vero defunto in sogno, scopre l'inganno.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_settima/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="giornata-content">
+                <h2 class="giornata-title">Ottava Giornata: Le beffe che tutto il giorno o donna a uomo o uomo a donna o l'uno uomo all'altro si fanno</h2>
+                <p class="giornata-intro">Si ragiona di quelle beffe che tutto il giorno o donna a uomo o uomo a donna o l'uno uomo all'altro si fanno. Lauretta è regina. La giornata è dedicata a vari tipi di beffe, reciproche e ingegnose.</p>
+                <div class="novelle-grid">
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Gulfardo e Guasparruolo</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Gulfardo chiede in prestito denaro a Guasparruolo per sedurre sua moglie Ambruogia. Le dà il denaro, ma poi dice al marito di averglielo restituito tramite lei. Ambruogia è costretta a rendere i soldi, venendo beffata.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: Il prete di Varlungo e Belcolore</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Il prete di Varlungo giace con monna Belcolore lasciandole in pegno il suo tabarro. Chiede in prestito un mortaio a Belcolore e, quando lei rivuole il tabarro, le chiede indietro il mortaio, riavendo il pegno senza pagare.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Calandrino, Bruno e Buffalmacco (eliotropia)</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Calandrino viene convinto da Bruno e Buffalmacco dell'esistenza dell'eliotropia, una pietra che rende invisibili. La cerca nel Mugnone e torna a casa carico di sassi, credendosi invisibile, venendo poi picchiato dalla moglie.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Il proposto di Fiesole e la vedova</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Il proposto di Fiesole ama una vedova, che non lo ricambia. La vedova, con l'aiuto dei fratelli, lo attira in casa sua e lo lascia passare la notte al freddo e picchiato, facendogli credere di essere con lei.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: Tre giovani e il giudice</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Tre giovani fiorentini sfilano i calzoni a un giudice marchigiano mentre è sul banco dei giudici. Il giudice, per la vergogna, non se ne accorge finché non termina l'udienza.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Calandrino, Bruno e Buffalmacco (il porco)</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Bruno e Buffalmacco rubano un porco a Calandrino e gli fanno credere che glielo abbiano rubato con un incantesimo. Gli danno una falsa prova per scoprire il ladro, facendolo sospettare di se stesso e degli amici.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Lo scolare e la vedova</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Uno scolaro ama una vedova. Lei gli dà un appuntamento notturno ma lo lascia al freddo e sotto la neve. Lo scolaro si vendica facendola rimanere nuda su una torre, esposta al sole e agli insetti per un giorno intero.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Due amici e le mogli</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Due amici, Spinelloccio e Zeppa, si scambiano involontariamente le mogli. Quando lo scoprono, decidono che le mogli rimarranno in comune per non rompere l'amicizia.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Maestro Simone, Bruno e Buffalmacco</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Maestro Simone, un medico, desidera unirsi a una brigata di scapestrati. Bruno e Buffalmacco lo beffano facendogli credere di poterlo far diventare un membro della "compagnia errante" e lo portano in un luogo laido dove lo lasciano.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: Salabaetto e Jancofiore</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Una prostituta siciliana, Jancofiore, inganna il mercante Salabaetto rubandogli del denaro. Salabaetto si vendica fingendo di tornare con più ricchezze e, con l'aiuto di complici, la deruba di una somma maggiore.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_ottava/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="giornata-content">
+                <h2 class="giornata-title">Nona Giornata: Si ragiona, ciascuno secondo che gli piace e di quello che più gli aggrada</h2>
+                <p class="giornata-intro">Si ragiona, ciascuno secondo che gli piace e di quello che più gli aggrada. Emilia è regina. Come nella prima giornata, il tema è libero, permettendo una varietà di argomenti e toni.</p>
+                <div class="novelle-grid">
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Madonna Francesca e i due amanti</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Madonna Francesca, amata da due uomini, Rinuccio e Alessandro, non ne vuole nessuno. Per liberarsene, chiede a uno di fingersi morto e all'altro di portarlo via. Entrambi rischiano grosso, ma lei alla fine li placa.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: La badessa e le brache del prete</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Una badessa si alza in fretta per sorprendere una monaca con l'amante, ma per la fretta si mette in testa le brache di un prete. La monaca scoperta fa notare l'errore alla badessa, che è costretta a perdonarla.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Calandrino, Bruno e Buffalmacco (gravidanza)</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Maestro Simone, su consiglio di Bruno e Buffalmacco, fa credere a Calandrino di essere incinto. Calandrino, disperato, si sottopone a una cura costosa finché non viene "guarito" dagli stessi amici.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Cecco di Fortarrigo e Cecco di Angiulieri</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Cecco di Fortarrigo gioca e perde tutto a Buonconvento. Inseguito dai creditori, si finge annegato nel fiume. Cecco di Angiulieri, per aiutarlo, lo spoglia ma viene scambiato per ladro e assassino.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: Calandrino e la Nicolosa</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Calandrino si innamora di Nicolosa. Bruno gli fa un falso incantesimo per farla innamorare, ma in realtà lo fa scoprire dalla moglie Tessa, che lo picchia sonoramente.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Due giovani e l'oste</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Due giovani passano la notte in una locanda. Uno giace con la figlia dell'oste, l'altro per errore con la moglie. Colui che era con la figlia si mette nel letto dell'oste e racconta l'accaduto, credendo di parlare col compagno. Si crea un gran trambusto.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Talano d'Imolese e la moglie</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Talano d'Imolese sogna che un lupo strappa la gola a sua moglie. La avverte, ma lei non gli crede e accade proprio come nel sogno. La moglie viene uccisa da un lupo.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Biondello e Ciacco</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Ciacco, ghiottone, mangia a sbafo da un ricco signore. Biondello lo beffa facendogli credere che il signore sia arrabbiato con lui. Ciacco si vendica facendo arrivare al signore del pesce avariato, incolpando Biondello.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Due giovani e Salomone</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Due giovani chiedono consiglio a Salomone: uno su come farsi amare, l'altro su come domare una moglie riottosa. Salomone consiglia al primo di "amare" e al secondo di "andare alla Pieve dell'Oca". Entrambi interpretano a modo loro, con esiti diversi.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: Donno Gianni e compare Pietro</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Donno Gianni, su richiesta di compare Pietro, compie un finto incantesimo per trasformare la moglie di Pietro in una cavalla. Quando sta per attaccarle la coda, Pietro dice che non la vuole, rovinando l'incantesimo.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_nona/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="giornata-content">
+                <h2 class="giornata-title">Decima Giornata: Chi liberalmente o vero magnificamente alcuna cosa operasse intorno a' fatti d'amore o d'altra cosa</h2>
+                <p class="giornata-intro">Si ragiona di chi liberalmente o vero magnificamente alcuna cosa operasse intorno a' fatti d'amore o d'altra cosa. Panfilo è re. La giornata finale è dedicata a esempi di cortesia, generosità e magnificenza.</p>
+                <div class="novelle-grid">
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella I: Ruggieri de' Figiovanni e Alfonso</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Un cavaliere al servizio del re Alfonso di Spagna si ritiene mal ricompensato. Il re, con un esempio pratico, gli dimostra che la colpa non è sua ma della cattiva sorte del cavaliere, e poi lo dona generosamente.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_prima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella II: Ghino di Tacco e l'abate di Clignì</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Ghino di Tacco, famoso brigante, cattura l'abate di Cluny. Lo cura dalla sua malattia di stomaco con una dieta forzata e poi, vedendo la sua generosità, gli restituisce tutto e diventa suo amico.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_seconda" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella III: Mitridanes e Natan</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Mitridanes, invidioso della cortesia di Natan, si reca da lui con l'intenzione di ucciderlo. Natan, senza rivelare la sua identità, lo accoglie e gli offre il modo di ucciderlo. Mitridanes, colpito dalla sua generosità, si pente.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="http://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_terza" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IV: Messer Gentile de' Carisendi e Catalina</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Messer Gentile de' Carisendi ama Catalina. Lei, creduta morta di parto, viene sepolta. Gentile la disseppellisce e scopre che è viva. La porta a casa sua, la cura e poi la restituisce al marito con il figlio nato.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_quarta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella V: Dianora e Ansaldo</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Madonna Dianora chiede ad Ansaldo, che la corteggia, un giardino fiorito a gennaio come prova d'amore. Ansaldo, con l'aiuto di un negromante, riesce nell'impresa. Il marito di Dianora, Gilberto, le impone di concedersi ad Ansaldo, ma questi, colpito dalla liberalità di Gilberto, la libera dall'impegno.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_quinta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VI: Re Carlo e le fanciulle</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Re Carlo il Vecchio, vittorioso, si innamora di una giovane fanciulla. Vergognandosi del suo sentimento senile, la marita onorevolmente insieme alla sorella, dimostrando la sua magnanimità.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_sesta" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VII: Lisa e re Pietro d'Aragona</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Lisa Puccini si ammala d'amore per re Pietro d'Aragona. Lo fa sapere al re tramite un menestrello. Il re la visita, la conforta e, pur non potendo ricambiare il suo amore, la onora pubblicamente e la marita vantaggiosamente.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_settima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella VIII: Sofronia, Gisippo e Tito</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Gisippo cede all'amico Tito la sua promessa sposa Sofronia, di cui Tito si è innamorato. Anni dopo, Tito salva Gisippo, caduto in miseria e falsamente accusato di omicidio, autoaccusandosi al suo posto. L'imperatore Ottaviano, colpito dalla loro amicizia, li perdona entrambi e li ricompensa.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_ottava" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella IX: Il Saladino e messer Torello</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Il Saladino, travestito da mercante, viene ospitato generosamente da messer Torello d'Istria. Anni dopo, Torello partecipa a una crociata, viene catturato e riconosciuto dal Saladino, che lo onora. Grazie a un incantesimo, Torello torna a casa giusto in tempo per impedire le seconde nozze della moglie.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_nona" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+        
+                    <div class="novella-card">
+                        <div class="novella-header">
+                            <h3>Novella X: Gualtieri e Griselda</h3>
+                        </div>
+                        <div class="novella-body">
+                            <p>Il marchese Gualtieri di Saluzzo sposa Griselda, una umile contadina, e la sottopone a crudeli prove per testare la sua obbedienza: le fa credere di aver ucciso i loro figli e di volerla ripudiare per sposare un'altra. Griselda sopporta tutto con pazienza, e alla fine Gualtieri le rivela la verità, la onora e vivono felicemente.</p>
+                        </div>
+                        <div class="novella-footer">
+                            <a href="https://it.wikisource.org/wiki/Decameron/Giornata_decima/Novella_decima" class="btn" target="_blank">Leggi la novella</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </main>
+    </div>
+</body>
+</html>

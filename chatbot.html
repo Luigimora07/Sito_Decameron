@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot del Decameron</title>
+    <style>
+        :root {
+            --primary-color: #83512d;
+            --secondary-color: #ece2d0;
+            --text-color: #292522;
+            --accent-color: #651e0c;
+            --light-accent: #c49c73;
+        }
+        
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-image: url('/api/placeholder/600/900');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: rgba(236, 226, 208, 0.9);
+            border-bottom: 4px solid var(--primary-color);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .site-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .site-title h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: var(--accent-color);
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+        
+        .site-title p {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--accent-color);
+            margin: 0 15px;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary-color);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        main {
+            background-color: rgba(255, 255, 255, 0.92);
+            margin: 30px auto;
+            padding: 40px;
+            border: 1px solid var(--light-accent);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        
+        .ornament {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            color: var(--light-accent);
+        }
+        
+        .chatbot-intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .chatbot-intro h2 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .chatbot-image {
+            display: block;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+        }
+        
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid var(--light-accent);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+        
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .chat-header-icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            background-image: url('/api/placeholder/400/600');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            max-width: 75%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bot-message {
+            align-self: flex-start;
+            background-color: var(--secondary-color);
+            border-bottom-left-radius: 5px;
+            color: var(--text-color);
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            border-bottom-right-radius: 5px;
+            color: white;
+        }
+        
+        .message-time {
+            font-size: 0.75rem;
+            text-align: right;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            padding: 12px;
+            background-color: var(--secondary-color);
+            border-top: 1px solid var(--light-accent);
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--light-accent);
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .chat-input:focus {
+            border-color: var(--primary-color);
+        }
+        
+        .chat-send {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .chat-send:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .example-questions {
+            margin-top: 40px;
+            border-top: 1px solid var(--light-accent);
+            padding-top: 20px;
+        }
+        
+        .example-questions h3 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .question-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .question-btn {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--light-accent);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .question-btn:hover {
+            background-color: var(--light-accent);
+            color: white;
+        }
+        
+        .paper-effect {
+            position: relative;
+            background: rgba(255, 253, 249, 0.9);
+            border: 1px solid #d9c8b4;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .paper-effect::before, .paper-effect::after {
+            content: "";
+            position: absolute;
+            bottom: 12px;
+            width: 50%;
+            height: 20%;
+            max-width: 300px;
+            box-shadow: 0 15px 12px rgba(0, 0, 0, 0.22);
+            z-index: -1;
+        }
+        
+        .paper-effect::before {
+            left: 10px;
+            transform: rotate(-5deg);
+        }
+        
+        .paper-effect::after {
+            right: 10px;
+            transform: rotate(5deg);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .chat-container {
+                height: 400px;
+            }
+            
+            .chat-input-container {
+                padding: 8px;
+            }
+            
+            .question-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .question-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="site-title">
+                <h1>Il Decameron</h1>
+                <p>Chatbot interattivo sull'opera di Giovanni Boccaccio</p>
+            </div>
+            <nav>
+                <a href="pagina_web.html">Home</a>
+                <a href="Novelle.html">Le Novelle</a>
+                <a href="personaggi.html">I Personaggi</a>
+                <a href="chatbot.html">Chatbot</a>
+                <a href="contesto_storico.html">Contesto Storico</a>
+                <a href="informazioni.html">Informazioni</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <main class="paper-effect">
+            <section class="chatbot-intro">
+                <img src="img/Leonardo_Phoenix_10_Create_a_logo_that_effectively_represents_3.jpg" alt="Illustrazione del Decameron" class="chatbot-image">
+                <h2>Parla con l'esperto del Decameron</h2>
+                <p>Benvenuto! Sono un chatbot specializzato nell'opera di Giovanni Boccaccio. Puoi chiedermi informazioni sulle novelle, i personaggi, i temi, il contesto storico o qualsiasi altra curiosità sul Decameron. Sarò felice di aiutarti a esplorare questo capolavoro della letteratura italiana!</p>
+            </section>
+            
+            <div class="ornament">✦ ✦ ✦</div>
+            
+            <section class="chat-section">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <span class="chat-header-icon">📚</span>
+                        <h3>Assistente del Decameron</h3>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot-message">
+                            Buongiorno! Sono l'assistente virtuale esperto del Decameron di Giovanni Boccaccio. Come posso aiutarti oggi? Puoi chiedermi della struttura dell'opera, delle novelle specifiche, dei personaggi, o del contesto storico in cui fu scritto.
+                            <div class="message-time">Oggi, 12:00</div>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" id="userInput" placeholder="Scrivi la tua domanda sul Decameron..." aria-label="Messaggio">
+                        <button class="chat-send" id="sendButton" aria-label="Invia messaggio">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="example-questions">
+                <h3>Domande di esempio</h3>
+                <p style="text-align: center; margin-bottom: 15px;">Clicca su una domanda per farla all'assistente:</p>
+                <div class="question-buttons">
+                    <button class="question-btn" data-question="Chi è l'autore del Decameron e quando è stato scritto?">Chi è l'autore del Decameron?</button>
+                    <button class="question-btn" data-question="Parlami della cornice narrativa del Decameron">La cornice narrativa</button>
+                    <button class="question-btn" data-question="Qual è la novella più famosa del Decameron?">La novella più famosa</button>
+                    <button class="question-btn" data-question="Quali sono i temi principali trattati nel Decameron?">Temi principali</button>
+                    <button class="question-btn" data-question="Raccontami la novella di Federigo degli Alberighi">Federigo degli Alberighi</button>
+                    <button class="question-btn" data-question="Che impatto ha avuto la peste nera sul Decameron?">La peste nera</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Il Decameron Interattivo © 2025 | Un progetto culturale dedicato all'opera di Giovanni Boccaccio</p>
+            <p>Tutte le illustrazioni e i contenuti sono utilizzati a scopo didattico e culturale</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chatMessages');
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const questionButtons = document.querySelectorAll('.question-btn');
+            
+            // Risposte predefinite del chatbot (simulazione locale)
+            const botResponses = {
+                "chi è l'autore del decameron": "Il Decameron è stato scritto da Giovanni Boccaccio tra il 1349 e il 1353. Boccaccio nacque nel 1313 a Certaldo (o forse a Firenze) e morì nel 1375. È considerato, insieme a Dante Alighieri e Francesco Petrarca, uno dei padri della letteratura italiana.",
+                
+                "parlami della cornice narrativa": "La cornice narrativa del Decameron è ambientata durante la peste nera che colpì Firenze nel 1348. Dieci giovani (sette donne e tre uomini) si rifugiano in una villa fuori città per sfuggire al contagio. Per trascorrere il tempo, decidono che ognuno di loro racconterà una novella al giorno per dieci giorni (da qui il nome 'Decameron', dal greco 'dieci giornate'). Questa struttura inquadra le 100 novelle dell'opera e rappresenta metaforicamente la ricerca di un nuovo ordine sociale e morale in un'epoca di profonda crisi.",
+                
+                "qual è la novella più famosa": "Tra le novelle più famose del Decameron c'è sicuramente quella di Ser Ciappelletto (I,1), che apre l'opera, e quella di Griselda (X,10), che la chiude. Altre novelle molto note sono quella di Andreuccio da Perugia (II,5), quella di Nastagio degli Onesti (V,8), quella di Federigo degli Alberighi (V,9) e quella di Frate Cipolla (VI,10). La popolarità di queste novelle deriva dalla maestria narrativa di Boccaccio e dai temi universali che affrontano.",
+                
+                "quali sono i temi principali": "Il Decameron affronta numerosi temi: l'amore in tutte le sue forme (dall'amore cortese alla passione carnale), la fortuna e il suo ruolo nelle vicende umane, l'ingegno e l'industria umana come mezzi per superare le difficoltà, la critica alla corruzione del clero, la celebrazione dei valori mercantili e borghesi, e il realismo nella rappresentazione della società contemporanea. Attraverso questi temi, Boccaccio offre un'ampia visione della condizione umana e della società del suo tempo.",
+                
+                "raccontami la novella di federigo degli alberighi": "La novella di Federigo degli Alberighi (V,9) racconta la storia di un nobile cavaliere che, per amore di monna Giovanna, sperpera tutte le sue ricchezze in feste e tornei senza essere ricambiato. Ridotto in povertà, gli resta solo un falcone pregiato. Quando il figlio di Giovanna, rimasta vedova, si ammala e desidera il falcone di Federigo, la donna va a fargli visita. Non avendo nulla da offrirle per pranzo, Federigo sacrifica il suo amato falcone. Quando Giovanna gli chiede l'animale per il figlio malato, Federigo rivela di averlo appena servito a tavola. Commossa da questo estremo gesto d'amore e generosità, e dopo la morte del figlio, Giovanna decide di sposare Federigo, riportandolo alla ricchezza. La novella esalta la nobiltà d'animo e la cortesia anche nella povertà.",
+                
+                "che impatto ha avuto la peste nera": "La peste nera del 1348 è fondamentale per il Decameron. Boccaccio la descrive con crudo realismo nell'introduzione, documentando il collasso sociale, morale e religioso di Firenze. La peste funge da cornice narrativa: i dieci giovani protagonisti fuggono dalla città appestata per rifugiarsi in campagna, dove raccontano le novelle. Simbolicamente, questa fuga rappresenta il tentativo di creare un nuovo ordine sociale e morale attraverso la cultura e la civile conversazione, in contrasto con il caos della città. La peste diventa così metafora della crisi della società medievale e preludio all'emergere di nuovi valori umanistici."
+            };
+            
+            // Funzione per aggiungere un messaggio alla chat
+            function addMessage(message, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+                
+                const messageText = document.createTextNode(message);
+                messageDiv.appendChild(messageText);
+                
+                const timeDiv = document.createElement('div');
+                timeDiv.classList.add('message-time');
+                
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                timeDiv.textContent = `Oggi, ${hours}:${minutes}`;
+                
+                messageDiv.appendChild(timeDiv);
+                chatMessages.appendChild(messageDiv);
+                
+                // Scorri in basso per mostrare l'ultimo messaggio
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Funzione per generare una risposta del bot
+            function getBotResponse(userMessage) {
+                userMessage = userMessage.toLowerCase().trim();
+                
+                // Cerca corrispondenze nelle risposte predefinite
+                for (const [key, value] of Object.entries(botResponses)) {
+                    if (userMessage.includes(key)) {
+                        return value;
+                    }
+                }
+                
+                // Se non trova corrispondenze specifiche
+                if (userMessage.includes("novella") || userMessage.includes("racconto")) {
+                    return "Il Decameron contiene 100 novelle, organizzate in 10 giornate con 10 novelle ciascuna. Ogni giornata ha un tema specifico, ad eccezione della prima e della nona. Puoi chiedermi di una novella specifica se sei interessato!";
+                } else if (userMessage.includes("personagg")) {
+                    return "Nel Decameron troviamo dieci narratori principali (sette donne e tre uomini): Pampinea, Filomena, Neifile, Fiammetta, Elissa, Lauretta, Emilia, Panfilo, Filostrato e Dioneo. All'interno delle novelle compaiono centinaia di altri personaggi di ogni estrazione sociale, dalla nobiltà ai mercanti, dal clero ai contadini.";
+                } else if (userMessage.includes("boccaccio") || userMessage.includes("giovanni")) {
+                    return "Giovanni Boccaccio (1313-1375) fu uno scrittore e umanista italiano, considerato uno dei più importanti esponenti della letteratura italiana e europea del XIV secolo. Oltre al Decameron, scrisse altre opere importanti come il 'Filocolo', la 'Elegia di Madonna Fiammetta' e il 'Corbaccio'.";
+                } else if (userMessage.includes("giornata")) {
+                    return "Il Decameron è diviso in 10 giornate, ciascuna con un tema specifico, ad eccezione della prima e della nona giornata. Per esempio, la seconda giornata è dedicata a chi, perseguitato dalla fortuna, raggiunge un lieto fine; la quarta a storie d'amore che finiscono tragicamente; la settima alle beffe delle mogli ai mariti.";
+                } else if (userMessage.includes("ciao") || userMessage.includes("salve") || userMessage.includes("buongiorno")) {
+                    return "Buongiorno! Sono felice di parlare con te del Decameron. Cosa vorresti sapere su questa straordinaria opera di Giovanni Boccaccio?";
+                } else {
+                    return "Interessante domanda sul Decameron! Per darti informazioni più precise, potresti specificare meglio cosa vorresti sapere? Posso parlati delle novelle specifiche, dei personaggi, dei temi, della struttura dell'opera o del contesto storico in cui è stata scritta.";
+                }
+            }
+            
+            // Funzione per inviare un messaggio
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+                
+                // Aggiungi il messaggio dell'utente
+                addMessage(message, true);
+                
+                // Simula la risposta del bot (con un breve ritardo per realismo)
+                setTimeout(() => {
+                    const botResponse = getBotResponse(message);
+                    addMessage(botResponse, false);
+                }, 1000);
+                
+                // Pulisci l'input
+                userInput.value = '';
+            }
+            
+            // Event listeners
+            sendButton.addEventListener('click', sendMessage);
+            
+            userInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Event listener per i pulsanti delle domande di esempio
+            questionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    userInput.value = question;
+                    sendMessage();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Decameron - Un Viaggio Interattivo</title>
+    <style>
+        :root {
+            --primary-color: #83512d;
+            --secondary-color: #ece2d0;
+            --text-color: #292522;
+            --accent-color: #651e0c;
+            --light-accent: #c49c73;
+        }
+        
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-image: url('img/Leonardo_Phoenix_10_Create_an_image_that_represents_the_Decame_3.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: rgba(236, 226, 208, 0.9);
+            border-bottom: 4px solid var(--primary-color);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .site-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .site-title h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: var(--accent-color);
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+        
+        .site-title p {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--accent-color);
+            margin: 0 15px;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary-color);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        main {
+            background-color: rgba(255, 255, 255, 0.92);
+            margin: 30px auto;
+            padding: 40px;
+            border: 1px solid var(--light-accent);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        
+        .hero {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--light-accent);
+            padding-bottom: 40px;
+        }
+        
+        .hero-text {
+            flex: 3;
+            padding-right: 30px;
+        }
+        
+        .hero-text h2 {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+        
+        .hero-image {
+            flex: 2;
+            text-align: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border: 3px solid var(--primary-color);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid var(--light-accent);
+            background-color: rgba(236, 226, 208, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature h3 {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .cta {
+            text-align: center;
+            margin: 50px 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--accent-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+        
+        .ornament {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            color: var(--light-accent);
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+            }
+            
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aggiunta di un piccolo effetto per i pulsanti di navigazione rapida
+            const quickNavBtns = document.querySelectorAll('.quick-nav-btn');
+            
+            
+            // Simulazione di interazione con un personaggio
+            document.getElementById('chatbot-demo').addEventListener('click', function() {
+                const characters = [
+                    'Dioneo',
+                    'Fiammetta',
+                    'Panfilo',
+                    'Filomena',
+                    'Neifile'
+                ];
+            
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="site-title">
+                <h1>Il Decameron</h1>
+                <p>Un viaggio interattivo nell'opera di Giovanni Boccaccio</p>
+            </div>
+            <nav>
+                <a href="pagina_web.html">Home</a>
+                <a href="Novelle.html">Le Novelle</a>
+                <a href="personaggi.html">I Personaggi</a>
+                <a href="chatbot.html">Chatbot</a>
+                <a href="contesto_storico.html">Contesto Storico</a>
+                <a href="informazioni_html.html">Informazioni</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <main>
+            <section class="hero">
+                <div class="hero-text">
+                    <h2>Benvenuti nel mondo del Decameron</h2>
+                    <p>Esplora una delle opere più importanti della letteratura italiana attraverso una nuova esperienza interattiva che ti permette di immergerti nelle cento novelle raccontate durante i dieci giorni di narrazione.</p>
+                    <p>Questo sito ti offre un viaggio unico nell'universo creato da Giovanni Boccaccio: riassunti dettagliati di ogni novella, illustrazioni d'epoca, contesto storico e la possibilità di dialogare con i personaggi attraverso chatbot intelligenti.</p>
+                </div>
+                <div class="hero-image">
+                    <img src="img/decameron.jpg" alt="Illustrazione del Decameron" />
+                </div>
+            </section>
+            
+            <div class="ornament">✦ ✦ ✦</div>
+            
+            <section>
+                <h2 style="text-align: center; color: var(--accent-color);">Scopri il capolavoro di Boccaccio</h2>
+                <p>Il Decameron, scritto tra il 1349 e il 1353, è una raccolta di cento novelle raccontate in dieci giorni da dieci giovani (sette donne e tre uomini) rifugiatisi in una villa fuori Firenze per sfuggire alla peste nera. Ogni giornata è dedicata a un tema specifico, offrendo uno spaccato vivido della società medievale italiana con storie di amore, fortuna, ingegno e beffa.</p>
+            </section>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">📚</div>
+                    <h3>Le Novelle</h3>
+                    <p>Esplora tutte le cento novelle del Decameron con riassunti dettagliati e commentati, arricchiti da immagini d'epoca e analisi letterarie.</p>
+                    <a href="Novelle.html" class="quick-nav-btn">Sfoglia le novelle</a>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">👥</div>
+                    <h3>I Personaggi</h3>
+                    <p>Conosci i dieci narratori e tutti i protagonisti delle novelle, con profili dettagliati e contesto storico-culturale.</p>
+                    <a href="personaggi.html" class="quick-nav-btn">Incontra i personaggi</a>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">💬</div>
+                    <h3>Chatbot Interattivi</h3>
+                    <p>Dialoga con i personaggi del Decameron attraverso chatbot che simulano le loro personalità, stile di linguaggio e conoscenze.</p>
+                    <a href="chatbot.html">Prova un dialogo</a>
+                </div>
+            </div>
+            
+            <div class="cta">
+                <h3>Inizia il tuo viaggio nel Decameron</h3>
+                <p>Scegli una giornata o una novella specifica per iniziare la tua esplorazione</p>
+                <a href="Novelle.html" class="btn">Esplora la Prima Giornata</a>
+            </div>
+        </main>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Il Decameron Interattivo © 2025 | Un progetto culturale dedicato all'opera di Giovanni Boccaccio</p>
+            <p>Tutte le illustrazioni e i contenuti sono utilizzati a scopo didattico e culturale</p>
+        </div>
+    </footer>
+</body>
+</html>

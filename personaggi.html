@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Personaggi del Decameron - Un Viaggio Interattivo</title>
+    <style>
+        :root {
+            --primary-color: #83512d;
+            --secondary-color: #ece2d0;
+            --text-color: #292522;
+            --accent-color: #651e0c;
+            --light-accent: #c49c73;
+        }
+        
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-image: url('img/decameron.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: rgba(236, 226, 208, 0.9);
+            border-bottom: 4px solid var(--primary-color);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .site-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .site-title h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: var(--accent-color);
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+        
+        .site-title p {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--accent-color);
+            margin: 0 15px;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary-color);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        main {
+            background-color: rgba(255, 255, 255, 0.92);
+            margin: 30px auto;
+            padding: 40px;
+            border: 1px solid var(--light-accent);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-accent);
+        }
+        
+        .page-header h2 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            color: var(--accent-color);
+            margin: 40px 0 20px;
+            font-size: 1.8rem;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .character-card {
+            background-color: rgba(236, 226, 208, 0.7);
+            border: 1px solid var(--light-accent);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+       .character-image {
+    width: 100%;
+    height: 200px;
+    background-color: var(--primary-color);
+    background-size: cover;
+    background-position: center;
+    border-bottom: 3px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.character-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center; /* <-- questa riga è fondamentale per i volti */
+}
+
+        
+      
+        
+        .character-info {
+            padding: 20px;
+        }
+        
+        .character-info h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .character-info p {
+            margin-bottom: 15px;
+        }
+        
+        .character-meta {
+            font-style: italic;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .character-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .character-btn:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .ornament {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            color: var(--light-accent);
+        }
+        
+        .search-box {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .search-box input {
+            padding: 12px 15px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--light-accent);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .filter-btn {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .quote-box {
+            background-color: rgba(131, 81, 45, 0.1);
+            padding: 20px;
+            border-left: 4px solid var(--accent-color);
+            margin: 30px 0;
+        }
+        
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .quote-author {
+            text-align: right;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav a {
+                margin: 5px 0;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script per il funzionamento dei filtri
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.dataset.filter;
+                    
+                    // Toggle active class
+                    if (filter === 'all') {
+                        filterButtons.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    } else {
+                        document.querySelector('[data-filter="all"]').classList.remove('active');
+                        this.classList.toggle('active');
+                    }
+                    
+                    // Simulazione filtro (in un'implementazione completa filtrerebbe effettivamente i personaggi)
+                    alert('Hai selezionato il filtro: ' + this.textContent);
+                });
+            });
+            
+            // Simulazione ricerca
+            const searchInput = document.getElementById('character-search');
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    alert('Hai cercato: ' + this.value);
+                }
+            });
+            
+            // Dialogo con personaggio
+            const chatButtons = document.querySelectorAll('.character-chat');
+            chatButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const character = this.dataset.character;
+                    alert('Inizia una conversazione con ' + character + '! In una versione completa, qui si aprirebbe un chatbot interattivo.');
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="site-title">
+                <h1>Il Decameron</h1>
+                <p>Un viaggio interattivo nell'opera di Giovanni Boccaccio</p>
+            </div>
+            <nav>
+                <a href="pagina_web.html">Home</a>
+                <a href="Novelle.html">Le Novelle</a>
+                <a href="personaggi-html.html">I Personaggi</a>
+                <a href="chatbot.html">Chatbot</a>
+                <a href="contesto_storico.html">Contesto Storico</a>
+                <a href="#">Informazioni</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <main>
+            <section class="page-header">
+                <h2>I Personaggi del Decameron</h2>
+                <p>Esplora le vite e le storie dei protagonisti del Decameron: dai dieci narratori che si rifugiano nella villa fiorentina ai memorabili personaggi delle novelle che hanno definito la letteratura italiana medievale.</p>
+            </section>
+            
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Tutti</button>
+                <button class="filter-btn" data-filter="narrator">Narratori</button>
+                <button class="filter-btn" data-filter="protagonist">Protagonisti delle novelle</button>
+                <button class="filter-btn" data-filter="historical">Figure storiche</button>
+                <button class="filter-btn" data-filter="religious">Figure religiose</button>
+            </div>
+            
+            <section>
+                <h3 class="section-title">I Dieci Narratori</h3>
+                <p>I narratori del Decameron sono sette giovani donne (Pampinea, Fiammetta, Filomena, Emilia, Lauretta, Neifile e Elissa) e tre giovani uomini (Panfilo, Filostrato e Dioneo) che si rifugiano in una villa fuori Firenze per sfuggire alla peste. Ogni giorno, ciascuno di loro racconta una novella, creando così le cento storie del Decameron.</p>
+                
+                <div class="card-grid">
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/pampinea.jpg" alt="Pampinea - la più anziana e saggia del gruppo" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratrice • Regina del primo giorno</div>
+                            <h3>Pampinea</h3>
+                            <p>La più anziana e saggia del gruppo, Pampinea propone di lasciare Firenze per rifugiarsi in campagna. Il suo nome significa "rigogliosa" e rappresenta la razionalità e la saggezza.</p>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/fiammetta.jpg" alt="Fiammetta - ispirata a Maria d'Aquino" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratrice • Regina del quinto giorno</div>
+                            <h3>Fiammetta</h3>
+                            <p>Il suo nome significa "piccola fiamma" e si identifica con l'amore passionale. È ispirata a Maria d'Aquino, amore giovanile di Boccaccio e protagonista di altre sue opere.</p>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/dioneo.jpg" alt="Dioneo - il narratore più irriverente e divertente" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratore • Privilegio speciale</div>
+                            <h3>Dioneo</h3>
+                            <p>Il più irriverente e divertente del gruppo, Dioneo ha il privilegio di raccontare sempre l'ultima novella di ogni giornata. Il suo nome deriva da Dioniso, dio greco del vino e della festa.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/panfilo.jpg" alt="Panfilo - il narratore equilibrato e saggio" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratore • Re del primo giorno</div>
+                            <h3>Panfilo</h3>
+                            <p>Il suo nome significa "tutto amore". È il narratore più equilibrato e saggio tra i giovani uomini, spesso racconta novelle con temi morali ed edificanti.</p>
+                        
+                        </div>
+                    </div>
+                    
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/filostrato.jpg" alt="Filostrato - il narratore malinconico" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratore • Re del quarto giorno</div>
+                            <h3>Filostrato</h3>
+                            <p>Il suo nome significa "abbattuto dall'amore", riflettendo la sua personalità malinconica. È il re della giornata dedicata agli amori infelici, tema che si addice al suo carattere.</p>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/filomena.jpg.jpg" alt="Filomena - la narratrice riflessiva" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratrice • Regina del secondo giorno</div>
+                            <h3>Filomena</h3>
+                            <p>Il suo nome significa "amante del canto". È una delle narratrici più riflessive, che spesso propone novelle con insegnamenti morali e profondi spunti di riflessione.</p>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/lauretta.jpg" alt="Lauretta - la narratrice equilibrata" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratrice • Regina dell'ottavo giorno</div>
+                            <h3>Lauretta</h3>
+                            <p>Il suo nome evoca l'alloro, simbolo di gloria poetica. È una narratrice equilibrata che predilige storie di astuzia e ingegno, spesso con protagoniste femminili.</p>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/neifile.jpg" alt="Neifile - la più giovane narratrice" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratrice • Regina del terzo giorno</div>
+                            <h3>Neifile</h3>
+                            <p>Il suo nome significa "nuova amante" o "giovane amante". È la più giovane tra le narratrici e spesso racconta storie di amore innocente e puro.</p>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/elissa.jpg" alt="Elissa - la narratrice malinconica" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratrice • Regina del sesto giorno</div>
+                            <h3>Elissa</h3>
+                            <p>Il nome richiama la figura di Didone (Elissa), regina di Cartagine abbandonata da Enea. Nel gruppo, è spesso malinconica ma sa apprezzare le storie di arguzia e pronta risposta.</p>
+                           
+                        </div>
+                    </div>
+                    
+                    <div class="character-card">
+                        <div class="character-image">
+                            <img src="img/emilia.jpg" alt="Emilia - la narratrice vivace e spiritosa" />
+                        </div>
+                        <div class="character-info">
+                            <div class="character-meta">Narratrice • Regina del settimo giorno</div>
+                            <h3>Emilia</h3>
+                            <p>Il suo nome evoca l'idea di emulazione e competizione. È una narratrice vivace e spiritosa, spesso racconta novelle di beffe e inganni, specialmente quelle con protagoniste femminili astute.</p>
+                            
+                        </div>
+                    </div>
+                </div>
